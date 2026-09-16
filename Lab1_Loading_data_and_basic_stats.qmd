@@ -1,0 +1,173 @@
+---
+title: "Geog4/6300: Lab 1"
+format: gfm
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(tidyverse)
+library(knitr)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Loading data into R, data transformation, and summary statistics
+
+**Your name:**
+
+**Overview and lab criteria:**
+
+This lab is intended to assess your ability to use R to load data and to generate basic descriptive statistics. For this lab to be marked complete, the following criteria must be met:
+
+4. Identify and apply appropriate data filtering and cleaning strategies to prepare datasets for analysis. (Task 2)
+5. Effectively interpret the code you create, explaining in plain language what each step does to the data. (Task 6)
+6. Identify and use appropriate external documentation — including package references, help files, and peer resources — to learn and apply unfamiliar functions or methods. (Task 7)
+7. Filter, aggregate, and transform datasets using grouping and summary operations to answer specific analytical questions. (Tasks 1 & 5)
+9. Reshape data between wide and long formats to meet the requirements of different analytical or visualization tasks. (Task 4)
+11. Create effective data visualizations across multiple chart types (line, scatter, histogram, Q-Q plot), applying appropriate aesthetic choices such as color, grouping, and labeling. (Task 3 & 5)
+
+**Data:**
+
+You'll be using monthly weather data from the Daymet climate database (http://daymet.ornl.gov) for all counties in the United States over an 12-year period (2010-2021). These data are available on the GitHub repo for our course. The following variables are provided:
+
+* `cty_txt`: Code for joining to census data
+* `year`: Year of observation (with an initial "Y" to make it a character)
+* `month`: Month of observation (1 = Jan, 2 = Feb, etc.)
+* `median_tmax`: Median maximum recorded temperature (Celsius)
+* `median_tmin`: Median minimum recorded temperature (Celsius)
+* `sum_prcp`: Total recorded precipitation for the month (mm)
+* `cty_name`: Name of the county
+* `state`: State of the county
+* `region`: Census region (map: https://www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf)
+* `division`: Census division
+* `X`: Longitude of the county centroid
+* `Y`: Latitude of the county centroid
+
+These labs are meant to be done collaboratively, but your final submission should demonstrate your own original thought (don't just copy your classmate's work or turn in identical assignments). Your answers to the lab questions should be typed in this Quarto template. You'll then render the document to a GitHub markdown document and upload it to your class GitHub repo.
+
+**Procedure:**
+
+Load the tidyverse package and import the data:
+
+```{r}
+#| message: false
+
+library(tidyverse)
+
+daymet_data <- read_csv("data/daymet_monthly_median_2010-2021.csv")
+```
+
+We can look at the first few rows of the dataset using the *head()* function. We also use *kable* to format the output as a readable table..
+
+```{r}
+kable(head(daymet_data))
+```
+
+There are a lot of observations here, 452,448 to be exact. To get a better grasp on the data, we can use `group_by()` and `summarise()` from the tidyverse package. This will allow us to identify the mean value for each year by county across the study period.
+
+## Task 1
+
+*Use `group_by()` and `summarise()` to calculate the mean minimum temperature for each year by county across all months, also including State and Region as grouping variables. Your resulting dataset should show the value of tmin for each county in each year. Use the `kable()` and `head()` functions as shown above to call the resulting table.*
+
+```{r}
+#| label: task1
+
+# Your code goes here
+```
+
+## Task 2
+
+*Let's shift to the state level, focusing on those in the South Region. Filter the original data frame (`daymet_data`) to just include counties in this region. Then calculate the mean minimum temperature by year for each state. For an optional extra challenge, use the `round()` function to include only 1 decimal point. Use `kable()` and `head()` to call the first few lines of the resulting table.*
+
+```{r}
+#| label: task2
+
+# Your code goes here
+```
+
+## Task 3
+
+*To visualize the trends, we could use ggplot to visualize change in mean temperature over time. Create a line plot (`geom_line`) showing the state means you calculated in task 2. Use the `color` parameter to show separate colors for each state. You may also need to define the state as a group in the aesthetic parameter.*
+
+```{r}
+#| label: task3
+
+# Your code goes here
+```
+
+## Task 4
+
+*If you wanted to look at these data as a table, you'd need to have it in wide format. Use the `pivot_wider()` function to create a wide-format version of the data frame you created in task 2. In this case, the rows should be states, the columns should be the years, and the data in those columns should be mean minimum temperatures. Then call the whole table using `kable()`.*
+
+```{r}
+#| label: task4
+
+# Your code goes here
+```
+
+## Task 5
+
+*Let's assess the relationship of heat and precipitation by region. Returning to the original dataset, create a data frame that shows the mean maximum temperature and mean precipitation for all states in 2015, also including region as a subgroup in your `group_by`. Then use ggplot to create a scatterplot (`geom_point`) for these two variables, coloring the points using the region variable.*
+
+```{r}
+#| label: task5
+
+# Your code goes here
+```
+
+## Task 6
+
+*In the space below, explain what each function in your code for task 5 does to the dataset in plain English.*
+
+*Your response here.*
+
+## Task 7
+
+*The `dplyr` package also includes `across` function. Use `?across` on the R command line to open the documentation for this function. In the space below, explain what it does in your own words. Then interpret the way the across function is used below, going line by line within the function.*
+
+```{r}
+state_2015 <- daymet_data %>%
+  filter(year == "Y2015") %>%
+  group_by(region, state) %>%
+  summarise(
+    across(
+      c(median_tmax, sum_prcp),
+      mean,
+      na.rm = TRUE,
+      .names = "mean_{.col}"
+    )
+  )
+```
+
+{Your response here}
+
+
+## Challenge Question
+
+In class, we covered ways of working with the Daymet API. Create a script below that uses the **daymetr** package to download data from Daymet for a place (or places) of your choosing. Then visualize the temporal pattern for a variable of your choosing in this place, similar to what you did in question 4. Use a dplyr function (`mutate()`, `summarise()`, `filter()`, etc.) to do any needed data wrangling and create a visual using ggplot.
+
+In addition to this code, write a short summary of a pattern that's evident in the data you visualized.
+
+```{r}
+#| label: challenge
+
+# Your code goes here
+```
+
+*Explanation goes here.*
+
+## Final Submission Stuff
+
+### Disclosure of Assistance
+
+Besides class materials, what other sources of assistance did you use while completing this lab? These can include input from classmates, relevant material identified through web searches (e.g., Stack Overflow), or assistance from ChatGPT or other AI tools. How did these sources support your own learning in completing this lab?
+
+*Response here.*
+
+### Lab Reflection
+
+How do you feel about the work you did on this lab? Was it easy, moderate, or hard? What are the biggest things you learned by completing it?
+
+*Your response here.*
