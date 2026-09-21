@@ -76,12 +76,8 @@ There are a lot of observations here, 452,448 to be exact. To get a better grasp
 # Your code goes here
 
 grouped_daymet_data <- daymet_data %>%
-  group_by(cty_name, state, region)
-#view(grouped_daymet_data)
-
-grouped_daymet_data_tmin_mean <- grouped_daymet_data %>%
-  summarise(tor_count = n())
-#view(vio_tors_by_cty_st)
+  group_by(cty_name, state, region, year) %>% 
+  summarise(mean_tmin_bycty = mean(median_tmin))
 ```
 
 ## Task 2
