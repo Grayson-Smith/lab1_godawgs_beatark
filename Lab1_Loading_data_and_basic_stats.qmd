@@ -207,6 +207,18 @@ In addition to this code, write a short summary of a pattern that's evident in t
 #| label: challenge
 
 # Your code goes here
+library(daymetr)
+
+griffin_daymet <- download_daymet(site="griffin",lat=33.2476,lon=-84.2709,start=2020,end=2025,internal=TRUE) #This is my hometown!
+athens_daymet <- download_daymet(site="athens",lat=33.9498,lon=-83.3734,start=2020,end=2025,internal=TRUE)
+
+tmax_median_griffin <- median(griffin_daymet$tmax..deg.c)
+tmin_median_griffin <- median(griffin_daymet$tmin..deg.c)
+
+daymet_data_griffin_yearlytemp <- griffin_daymet %>%
+  summarise(mean_tmax = mean(tmax..deg.c)) %>%
+  mutate(year = str_remove(year,"Y"))
+#kable(grouped_daymet_data_region)
 
 ```
 
