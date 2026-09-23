@@ -78,6 +78,8 @@ There are a lot of observations here, 452,448 to be exact. To get a better grasp
 grouped_daymet_data <- daymet_data %>%
   group_by(cty_name, state, region, year) %>% 
   summarise(mean_tmin_bycty = mean(median_tmin))
+kable(grouped_daymet_data)
+head(grouped_daymet_data)
 ```
 
 ## Task 2
@@ -88,6 +90,8 @@ grouped_daymet_data <- daymet_data %>%
 #| label: task2
 
 # Your code goes here
+
+
 ```
 
 ## Task 3
