@@ -131,8 +131,8 @@ ggplot(grouped_daymet_data_south,
 # Your code goes here
 wider_grouped_daymet_data_south <- grouped_daymet_data_south %>%
   group_by(state) %>%
-  pivot_wider(id_cols = state, names_from=year,
-              values_from=rounded_mean_tmin_bystate)
+  pivot_wider(id_cols = state, names_from= year,
+              values_from= rounded_mean_tmin_bystate)
 
 
 kable(wider_grouped_daymet_data_south)
@@ -146,6 +146,13 @@ kable(wider_grouped_daymet_data_south)
 #| label: task5
 
 # Your code goes here
+grouped_daymet_data_region <- daymet_data %>%
+  group_by(state, region, year) %>% 
+  summarise(mean_tmax_bystate = mean(median_tmax),mean_sumprcp_bystate = mean(sum_prcp)) %>%
+  mutate(year = str_remove(year,"Y"))
+#kable(grouped_daymet_data_region)
+
+
 ```
 
 ## Task 6
