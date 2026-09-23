@@ -237,9 +237,9 @@ ggplot(combined_griffin_athens_df,
            y=mean_srad, group=city,
            color=city)) +
   geom_point() +
-  ggtitle("Annual Mean Temp and Solar Radiations for Griffin and Athens, GA (2020-2025)") +
+  ggtitle("Annual Mean Temp and Incoming Solar Radiation for Griffin and Athens, GA (2020-2025)") +
   theme(
-    plot.title = element_text(size = 10)) + #Had to do to shrink title to fit
+    plot.title = element_text(size = 9)) + #Had to do to shrink title to fit
   xlab("Mean Max Temp (\u00B0C)") +
   ylab("Mean Solar Radiation (W/m^2)") +
   labs(color = "City")
