@@ -111,12 +111,14 @@ head(grouped_daymet_data_south)
 
 # Your code goes here
 
-temp_plot_task3 <- ggplot(grouped_daymet_data_south,
+ggplot(grouped_daymet_data_south,
        aes(x=year, 
            y=mean_tmin_bystate, group=state,
            color=state)) +
-  geom_line()
-temp_plot_task3
+  geom_line() +
+  ggtitle("Mean Minimum Temperature for Southern States") +
+  xlab("Year") +
+  ylab("Mean Minimum Temp (\u00B0C)")
 ```
 
 ## Task 4
@@ -127,6 +129,13 @@ temp_plot_task3
 #| label: task4
 
 # Your code goes here
+wider_grouped_daymet_data_south <- grouped_daymet_data_south %>%
+  group_by(state) %>%
+  pivot_wider(id_cols = state, names_from=year,
+              values_from=rounded_mean_tmin_bystate)
+
+
+kable(wider_grouped_daymet_data_south)
 ```
 
 ## Task 5
