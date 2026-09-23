@@ -77,7 +77,8 @@ There are a lot of observations here, 452,448 to be exact. To get a better grasp
 
 grouped_daymet_data <- daymet_data %>%
   group_by(cty_name, state, region, year) %>% 
-  summarise(mean_tmin_bycty = mean(median_tmin))
+  summarise(mean_tmin_bycty = mean(median_tmin)) %>%
+  mutate(year = str_remove(year,"Y"))
 kable(grouped_daymet_data)
 head(grouped_daymet_data)
 ```
@@ -95,7 +96,8 @@ grouped_daymet_data_south <- daymet_data %>%
   filter(region=="South Region") %>%
   group_by(state, year) %>% 
   summarise(mean_tmin_bystate = mean(median_tmin)) %>%
-  mutate(mean_tmin_bystate = round(mean_tmin_bystate, digits = 1))
+  mutate(rounded_mean_tmin_bystate = round(mean_tmin_bystate, digits = 1)) %>%
+  mutate(year = str_remove(year,"Y"))
 kable(grouped_daymet_data_south)
 head(grouped_daymet_data_south)
 ```
@@ -108,6 +110,13 @@ head(grouped_daymet_data_south)
 #| label: task3
 
 # Your code goes here
+
+temp_plot_task3 <- ggplot(grouped_daymet_data_south,
+       aes(x=year, 
+           y=mean_tmin_bystate, group=state,
+           color=state)) +
+  geom_line()
+temp_plot_task3
 ```
 
 ## Task 4
