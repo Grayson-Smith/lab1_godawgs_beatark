@@ -91,7 +91,13 @@ head(grouped_daymet_data)
 
 # Your code goes here
 
-
+grouped_daymet_data_south <- daymet_data %>%
+  filter(region=="South Region") %>%
+  group_by(state, year) %>% 
+  summarise(mean_tmin_bystate = mean(median_tmin)) %>%
+  mutate(mean_tmin_bystate = round(mean_tmin_bystate, digits = 1))
+kable(grouped_daymet_data_south)
+head(grouped_daymet_data_south)
 ```
 
 ## Task 3
