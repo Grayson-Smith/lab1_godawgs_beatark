@@ -212,13 +212,37 @@ library(daymetr)
 griffin_daymet <- download_daymet(site="griffin",lat=33.2476,lon=-84.2709,start=2020,end=2025,internal=TRUE) #This is my hometown!
 athens_daymet <- download_daymet(site="athens",lat=33.9498,lon=-83.3734,start=2020,end=2025,internal=TRUE)
 
-tmax_median_griffin <- median(griffin_daymet$tmax..deg.c)
-tmin_median_griffin <- median(griffin_daymet$tmin..deg.c)
+griffin_df <- as.data.frame(griffin_daymet$data)
+athens_df <- as.data.frame(athens_daymet$data)
 
-daymet_data_griffin_yearlytemp <- griffin_daymet %>%
-  summarise(mean_tmax = mean(tmax..deg.c)) %>%
-  mutate(year = str_remove(year,"Y"))
-#kable(grouped_daymet_data_region)
+daymet_data_griffin_yearlytemp_srad <- griffin_df %>%
+  filter(tmax..deg.c. > -10, srad..W.m.2. > 0) %>%
+  group_by(year) %>%
+  summarise(mean_tmax = mean(tmax..deg.c.),mean_srad = mean(srad..W.m.2.)) %>%
+  mutate(year = str_remove(year,"Y"),city="Griffin")
+#kable(daymet_data_griffin_yearlytemp_srad)
+
+daymet_data_athens_yearlytemp_srad <- athens_df %>%
+  filter(tmax..deg.c. > -10, srad..W.m.2. > 0) %>%
+  group_by(year) %>%
+  summarise(mean_tmax = mean(tmax..deg.c.),mean_srad = mean(srad..W.m.2.)) %>%
+  mutate(year = str_remove(year,"Y"),city = "Athens")
+#kable(daymet_data_athens_yearlytemp_srad)
+
+combined_griffin_athens_df <- full_join(daymet_data_griffin_yearlytemp_srad,daymet_data_athens_yearlytemp_srad) #Added this because I could not find out a way to plot the data if it was in two separate data frames. That should be investigated for future labs. 
+
+#Making the plot itself
+ggplot(combined_griffin_athens_df,
+       aes(x=mean_tmax, 
+           y=mean_srad, group=city,
+           color=city)) +
+  geom_point() +
+  ggtitle("Annual Mean Temp and Solar Radiations for Griffin and Athens, GA (2020-2025)") +
+  theme(
+    plot.title = element_text(size = 10)) + #Had to do to shrink title to fit
+  xlab("Mean Max Temp (\u00B0C)") +
+  ylab("Mean Solar Radiation (W/m^2)") +
+  labs(color = "City")
 
 ```
 
