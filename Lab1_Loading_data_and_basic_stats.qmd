@@ -194,7 +194,7 @@ state_2015 <- daymet_data %>%
   )
 ```
 
-{Your response here}
+Task 7 Response: It appears that the `across` function can be used to apply another function -- like `summarise` function -- across multiple columns. Using this `across` function should preclude having to do multiple `summarise` functions for different columns -- or at the very least, make the syntax within one`summarise` function more streamlined (as it appears it also possible to apply `summarise` to multiple columns without `across,` it is just far longer syntax). In the code given above, the `across` is used to first take the mean of the values in the median_tmax and sum_prcp, then to remove any N/A values from both of those columns, and finally to name the resultant columns (with the mean values) according to the convention of mean_"previous column name" (i.e., mean_median_tmax). The use of across here just make ts the synatx more straightforward to handle each of those tasks across these two columns without needing two `summarise` functions (or a more complex single `summarise`). 
 
 
 ## Challenge Question
