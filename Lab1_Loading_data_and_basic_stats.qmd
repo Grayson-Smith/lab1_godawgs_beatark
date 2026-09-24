@@ -62,7 +62,7 @@ daymet_data <- read_csv("data/daymet_monthly_median_2010-2021.csv")
 We can look at the first few rows of the dataset using the *head()* function. We also use *kable* to format the output as a readable table..
 
 ```{r}
-kable(head(daymet_data))
+#kable(head(daymet_data)) #I hid this funciton because it prints out very large on the markdown document; however, I can certainly un-do this if it causes any issues. 
 ```
 
 There are a lot of observations here, 452,448 to be exact. To get a better grasp on the data, we can use `group_by()` and `summarise()` from the tidyverse package. This will allow us to identify the mean value for each year by county across the study period.
@@ -79,7 +79,7 @@ grouped_daymet_data <- daymet_data %>%
   group_by(cty_name, state, region, year) %>% 
   summarise(mean_tmin_bycty = mean(median_tmin)) %>%
   mutate(year = str_remove(year,"Y"))
-kable(grouped_daymet_data)
+#kable(grouped_daymet_data) #I hid this funciton because it prints out very large on the markdown document; however, I can certainly un-do this if it causes any issues. 
 head(grouped_daymet_data)
 ```
 
