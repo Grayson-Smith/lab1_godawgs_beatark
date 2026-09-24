@@ -155,7 +155,7 @@ grouped_daymet_data_south <- daymet_data %>%
 
 ``` r
 #kable(grouped_daymet_data_south) #I hid this funciton because it prints out very large on the markdown document; however, I can certainly un-do this if it causes any issues. 
-head(grouped_daymet_data_south)
+head(grouped_daymet_data_south) 
 ```
 
     # A tibble: 6 × 4

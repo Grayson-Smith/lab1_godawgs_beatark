@@ -99,7 +99,7 @@ grouped_daymet_data_south <- daymet_data %>%
   mutate(rounded_mean_tmin_bystate = round(mean_tmin_bystate, digits = 1)) %>%
   mutate(year = str_remove(year,"Y"))
 #kable(grouped_daymet_data_south) #I hid this funciton because it prints out very large on the markdown document; however, I can certainly un-do this if it causes any issues. 
-head(grouped_daymet_data_south)
+head(grouped_daymet_data_south) 
 ```
 
 ## Task 3
